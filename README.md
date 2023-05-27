@@ -2,9 +2,6 @@
 ### Adventure Game Jam 2023 May 26 - June 9th Under itch.io: https://itch.io/jam/advjam2023
 ### Developers: Kaiyu Adachi and Kenji Adachi
 
-<br />
-<br />
-
 ## IDEA
 ### Adventure game inspired by Soul Knight Mechanics
 - Soul Knight Movement and Shooting
@@ -13,11 +10,11 @@
 - White orb essence guide?
 - Portal to Another dimension/world?
 
-<br />
+
 ## TOOLS
 - Godot Game Engine
 - VS CODE
 
-<br />
+
 ## ASSETS
 - [Insert]
