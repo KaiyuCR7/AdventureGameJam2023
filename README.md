@@ -1,7 +1,10 @@
 # Adventure Game Jam 2023
 ### Adventure Game Jam 2023 May 26 - June 9th Under itch.io: https://itch.io/jam/advjam2023
 ### Developers: Kaiyu Adachi and Kenji Adachi
-
+.
+.
+.
+.
 ## IDEA
 ### Adventure game inspired by Soul Knight Mechanics
 - Soul Knight Movement and Shooting
