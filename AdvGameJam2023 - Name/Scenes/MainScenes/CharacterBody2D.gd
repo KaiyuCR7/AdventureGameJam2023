@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
 
-const MAX_SPEED = 90 * FACTOR
-const ACCELERATION = 80 * FACTOR
-const FRICTION = 80 * FACTOR
-const FACTOR = 50
+const MAX_SPEED = 200
+const ACCELERATION = 100 
+const FRICTION = 80
+#const FACTOR = 10
 
 var lookDirection = 1
 
@@ -28,7 +28,6 @@ func moveState(delta):
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("MoveRight") - Input.get_action_strength("MoveLeft")
 	input_vector.y = Input.get_action_strength("MoveDown") - Input.get_action_strength("MoveUp")
-	input_vector = input_vector.normalized()
 	
 	if input_vector != Vector2.ZERO:
 		if input_vector.x < 0:
@@ -52,5 +51,7 @@ func moveState(delta):
 			lookDirection = 2
 		velocity.x = move_toward(input_vector.x * MAX_SPEED, 0, FRICTION * delta)
 		velocity.y = move_toward(input_vector.y * MAX_SPEED, 0 , FRICTION * delta)
+	#normalize velocity
+	velocity = velocity.normalized() * MAX_SPEED
 	
 	move_and_slide()
