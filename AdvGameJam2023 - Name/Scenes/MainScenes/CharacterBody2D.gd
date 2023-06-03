@@ -15,7 +15,17 @@ var state = MOVE
 
 @onready var animationPlayer = $AnimationPlayer 
 
+
 func _process(delta):
+	#aim Weapon
+	var aimVector = get_global_mouse_position() - self.position
+	var aimRotate = aimVector.angle()
+	$weapon.rotation = aimRotate
+	if aimRotate > 1.57 || aimRotate < -1.57:
+		$weapon/Sprite2D.flip_v = true
+	else:
+		$weapon/Sprite2D.flip_v = false
+	
 	match state:
 		MOVE:
 			moveState(delta)

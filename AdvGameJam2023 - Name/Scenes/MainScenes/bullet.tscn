@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnvnl8yq65bf0"]
+
+[ext_resource type="Texture2D" uid="uid://3pm8w8vha4ns" path="res://Assets/weapons/gunProjectile.png" id="1_7atkw"]
+[ext_resource type="Script" path="res://Scenes/MainScenes/bullet.gd" id="1_pp8ts"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tbq4c"]
+radius = 17.0
+height = 44.0
+
+[node name="bullet" type="CharacterBody2D"]
+position = Vector2(4.76837e-07, 4.76837e-07)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_pp8ts")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_7atkw")
+hframes = 5
+vframes = 2
+frame = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3, 1)
+rotation = 1.5708
+scale = Vector2(1, 1)
+shape = SubResource("CapsuleShape2D_tbq4c")
+disabled = true
