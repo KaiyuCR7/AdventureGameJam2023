@@ -4,7 +4,6 @@ extends CharacterBody2D
 const MAX_SPEED = 200
 const ACCELERATION = 100 
 const FRICTION = 80
-#const FACTOR = 10
 
 var lookDirection = 1
 
@@ -23,6 +22,7 @@ func _process(delta):
 	
 		ATTACK:
 			pass
+			
 
 func moveState(delta):
 	var input_vector = Vector2.ZERO
@@ -55,3 +55,5 @@ func moveState(delta):
 	velocity = velocity.normalized() * MAX_SPEED
 	
 	move_and_slide()
+	
+	
