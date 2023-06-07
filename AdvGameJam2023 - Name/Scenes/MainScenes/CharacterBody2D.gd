@@ -40,7 +40,6 @@ func shoot():
 		bullet_instance.rotation = get_angle_to(get_global_mouse_position())
 		get_parent().add_child(bullet_instance)
 		await get_tree().create_timer(rate_of_fire).timeout
-		bullet_instance.apply_impulse(Vector2(),Vector2(bulletSpeed,0).rotated(rotation))
 		can_fire = true
 
 func move(delta):

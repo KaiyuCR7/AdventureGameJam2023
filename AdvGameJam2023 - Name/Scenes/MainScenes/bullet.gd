@@ -11,8 +11,7 @@ func setDvelocity(bulletVel):
 	self.inputVelocity = bulletVel
 
 func _ready():
-	print("in ready")
-	self.apply_impulse(Vector2(), Vector2(bulletSpeed, 0).rotated(global_rotation))
+	self.apply_impulse(Vector2(bulletSpeed, 0).rotated(rotation), Vector2())
 
 func _process(delta):
 #	velocity.x = move_toward(0,inputVelocity.x * bulletSpeed, delta * bulletSpeed)
@@ -20,3 +19,8 @@ func _process(delta):
 #	velocity = inputVelocity
 #	move_and_collide(velocity.normalized() * delta * bulletSpeed)
 	pass
+
+
+func _on_body_entered(body):
+	print("entered body")
+	queue_free()
