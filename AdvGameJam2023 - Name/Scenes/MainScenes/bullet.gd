@@ -1,24 +1,16 @@
-extends CharacterBody2D
+extends RigidBody2D
 
-var bulletSpeed = 10
-var inputVelocity = Vector2.ZERO
-
-func setBulletSpeed(speed):
-	self.bulletSpeed = speed
-	
-func setVelocity(bulletVel):
-	print(bulletVel)
-	self.inputVelocity = bulletVel
+@export var bulletSpeed = 500
+@export var life_time = 2
 
 func _ready():
-	print("bullet Ready")
-#	print(velocity)
-#	print(inputVelocity)
+	self.apply_impulse(Vector2(bulletSpeed, 0).rotated(rotation), Vector2())
+	nuke()
 
+func nuke():
+	await get_tree().create_timer(life_time).timeout
+	queue_free()
 
-func _process(delta):
-#	velocity.x = move_toward(0,inputVelocity.x * bulletSpeed, delta * bulletSpeed)
-#	velocity.y = move_toward(0,inputVelocity.y * bulletSpeed, delta * bulletSpeed)
-	velocity = inputVelocity
-	velocity = velocity.normalized() * bulletSpeed
-	move_and_slide()
+func _on_body_entered(body):
+	print("entered body")
+	self.hide()
