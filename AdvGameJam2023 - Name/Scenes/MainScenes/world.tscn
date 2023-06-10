@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://7q20ukhf3p84"]
+[gd_scene load_steps=11 format=3 uid="uid://7q20ukhf3p84"]
 
 [ext_resource type="Script" path="res://Scenes/MainScenes/world.gd" id="1_5bbk3"]
 [ext_resource type="PackedScene" uid="uid://dttvdg3qnw7h6" path="res://Scenes/MainScenes/player.tscn" id="1_8my2u"]
+[ext_resource type="PackedScene" uid="uid://cye4hxmuuioca" path="res://Scenes/uiScenes/pause_controller.tscn" id="2_hfyst"]
 [ext_resource type="Texture2D" uid="uid://bcknt1ht4iupb" path="res://Assets/Enviornments/TX Tileset Grass.png" id="8_xmc08"]
 [ext_resource type="Texture2D" uid="uid://b3t6wtemqt561" path="res://Assets/Enviornments/TX Tileset Stone Ground.png" id="9_m06u1"]
 [ext_resource type="Texture2D" uid="uid://dnn8u1kwm28o3" path="res://Assets/Enviornments/TX Tileset Wall.png" id="10_v87kk"]
@@ -583,12 +584,17 @@ sources/11 = SubResource("TileSetAtlasSource_8kqyd")
 sources/9 = SubResource("TileSetAtlasSource_esn58")
 
 [node name="World" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_5bbk3")
 
+[node name="pauseController" parent="." instance=ExtResource("2_hfyst")]
+
 [node name="Player" parent="." instance=ExtResource("1_8my2u")]
+process_mode = 1
 position = Vector2(319, 253)
 
 [node name="Environment" type="TileMap" parent="."]
+process_mode = 1
 tile_set = SubResource("TileSet_dqvgi")
 cell_quadrant_size = 34
 collision_animatable = true
@@ -623,3 +629,49 @@ position = Vector2(323, 284)
 zoom = Vector2(2, 2)
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+
+[node name="pauseMenu" type="Control" parent="outerCamera"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = -385.0
+offset_top = -268.0
+offset_right = 476.0
+offset_bottom = 237.0
+
+[node name="Label" type="Label" parent="outerCamera/pauseMenu"]
+layout_mode = 2
+offset_left = 738.0
+offset_top = 2.0
+offset_right = 781.0
+offset_bottom = 28.0
+text = "GUN:"
+
+[node name="OptionButton" type="OptionButton" parent="outerCamera/pauseMenu"]
+layout_mode = 2
+offset_left = 737.0
+offset_top = 26.0
+offset_right = 823.0
+offset_bottom = 57.0
+item_count = 9
+selected = 0
+popup/item_0/text = "Pistol"
+popup/item_0/id = 0
+popup/item_1/text = "SMG"
+popup/item_1/id = 1
+popup/item_2/text = "AR"
+popup/item_2/id = 2
+popup/item_3/text = "MiniGun"
+popup/item_3/id = 3
+popup/item_4/text = "Shotty"
+popup/item_4/id = 4
+popup/item_5/text = "redSaber"
+popup/item_5/id = 5
+popup/item_6/text = "blueSaber"
+popup/item_6/id = 6
+popup/item_7/text = "Sniper"
+popup/item_7/id = 7
+popup/item_8/text = "banana"
+popup/item_8/id = 8
+
+[connection signal="item_selected" from="outerCamera/pauseMenu/OptionButton" to="." method="_on_option_button_item_selected"]

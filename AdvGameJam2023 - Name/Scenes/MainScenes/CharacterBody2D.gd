@@ -4,14 +4,17 @@ extends CharacterBody2D
 const MAX_SPEED = 200
 const ACCELERATION = 100 
 const FRICTION = 80
-const bulletSpeed = 500
 
 var lookDirection = 1
 var can_fire = true
-var rate_of_fire = 0.4
+var rate_of_fire = 0.5
+var fireSpeed = 10
+var bulletSpread = 0.1
+var projectiles = 1
+var bulletLife = 2
 
 @onready var animationPlayer = $AnimationPlayer 
-@onready var weaponPoint = $weapon/Sprite2D/Area2D
+@onready var weaponPoint = $weapon/weaponFrames/Area2D
 @onready var weaponSprite = $weapon/weaponFrames
 
 var bullet = preload("res://Scenes/MainScenes/bullet.tscn")
@@ -36,15 +39,28 @@ func aim():
 		weaponSprite.flip_v = false
 		#looking right
 		lookDirection = 1
-	
+		
 func shoot():
 	if Input.is_action_pressed("shoot") and can_fire == true:
-		print("here")
 		can_fire = false
-		var bullet_instance = bullet.instantiate()
-		bullet_instance.set_position(weaponPoint.global_position)
-		bullet_instance.rotation = get_angle_to(get_global_mouse_position())
-		get_parent().add_child(bullet_instance)
+		var bulletSpreadList = []
+		var count2 = 0
+		var counter = 0
+		var prevSwap = 1
+		for i in range(projectiles):
+			count2 = count2 + 1
+			if count2 == 2:
+				counter = counter + 1
+				count2 = 0
+			bulletSpreadList.append(bulletSpread * counter * prevSwap)
+			prevSwap = prevSwap * -1
+		for i in range(projectiles):
+			var bullet_instance = bullet.instantiate()
+			bullet_instance.set_position(weaponPoint.global_position)
+			bullet_instance.rotation = get_angle_to(get_global_mouse_position()) - bulletSpreadList[i]
+			bullet_instance.bulletSpeed = fireSpeed
+			bullet_instance.life_time = bulletLife
+			get_parent().add_child(bullet_instance)
 		await get_tree().create_timer(rate_of_fire).timeout
 		can_fire = true
 

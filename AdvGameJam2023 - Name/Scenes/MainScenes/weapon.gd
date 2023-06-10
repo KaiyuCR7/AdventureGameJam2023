@@ -1,5 +1,4 @@
 extends Node2D
-@onready var gun = $Sprite2D
 
 var bulletSpeed = 100
 
