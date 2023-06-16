@@ -1,0 +1,202 @@
+[gd_scene load_steps=13 format=3 uid="uid://bwul61yftcixs"]
+
+[ext_resource type="Texture2D" uid="uid://dkkd7csqvu3eh" path="res://Assets/Enemy/slime-Sheet.png" id="1_2tw77"]
+[ext_resource type="Script" path="res://Scenes/MainScenes/enemy.gd" id="1_82b5i"]
+[ext_resource type="Script" path="res://Scenes/MainScenes/Damageable.gd" id="3_30hw3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3d171"]
+radius = 7.0
+height = 23.0
+
+[sub_resource type="Animation" id="Animation_hsins"]
+resource_name = "Attack"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 9, 10, 11, 12]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Marker2D/Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attackAnimFinished"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_3p2ko"]
+resource_name = "Idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_be1fa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Marker2D/Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_biswo"]
+resource_name = "die"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [16, 17, 18, 19, 20, 21]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"dieAnimFinish"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_thgom"]
+_data = {
+"Attack": SubResource("Animation_hsins"),
+"Idle": SubResource("Animation_3p2ko"),
+"RESET": SubResource("Animation_be1fa"),
+"die": SubResource("Animation_biswo")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_djfrn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_layjh"]
+radius = 24.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mf81r"]
+size = Vector2(20, 19)
+
+[node name="enemy" type="CharacterBody2D"]
+process_mode = 1
+collision_layer = 64
+collision_mask = 33
+script = ExtResource("1_82b5i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 5)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_3d171")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_2tw77")
+hframes = 8
+vframes = 3
+frame = 7
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
+libraries = {
+"": SubResource("AnimationLibrary_thgom")
+}
+
+[node name="Damageable" type="Node" parent="."]
+script = ExtResource("3_30hw3")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, 5)
+disable_mode = 2
+collision_layer = 128
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(5, 5)
+shape = SubResource("CircleShape2D_djfrn")
+
+[node name="AttackArea" type="Area2D" parent="."]
+position = Vector2(1, 5)
+collision_layer = 256
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_layjh")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(0, 5)
+
+[node name="Hitbox" type="Area2D" parent="Marker2D"]
+position = Vector2(-14, 1)
+collision_layer = 16
+collision_mask = 34
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Marker2D/Hitbox"]
+position = Vector2(9.53674e-07, -0.999998)
+shape = SubResource("RectangleShape2D_mf81r")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_entered" from="Marker2D/Hitbox" to="." method="_on_hitbox_body_entered"]

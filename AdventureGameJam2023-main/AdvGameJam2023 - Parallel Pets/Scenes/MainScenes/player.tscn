@@ -1,0 +1,122 @@
+[gd_scene load_steps=11 format=3 uid="uid://dttvdg3qnw7h6"]
+
+[ext_resource type="Script" path="res://Scenes/MainScenes/CharacterBody2D.gd" id="1_n7py2"]
+[ext_resource type="Texture2D" uid="uid://cho1wu8yjm7mi" path="res://Assets/Player/Parallel_Pets_-_Temp_Lenyx.png" id="2_oga6t"]
+[ext_resource type="PackedScene" uid="uid://c6pm766vu4hd7" path="res://Scenes/MainScenes/weapon.tscn" id="3_ypho4"]
+[ext_resource type="Script" path="res://Scenes/MainScenes/playerBody.gd" id="4_qpdt5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4qdl4"]
+radius = 6.0
+height = 22.0
+
+[sub_resource type="Animation" id="Animation_3ucow"]
+resource_name = "IdleLeft"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_y7xp8"]
+resource_name = "IdleRight"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_j681e"]
+resource_name = "RunLeft"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_v5p01"]
+resource_name = "RunRight"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_25bmv"]
+_data = {
+"IdleLeft": SubResource("Animation_3ucow"),
+"IdleRight": SubResource("Animation_y7xp8"),
+"RunLeft": SubResource("Animation_j681e"),
+"RunRight": SubResource("Animation_v5p01")
+}
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 32
+collision_mask = 193
+script = ExtResource("1_n7py2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+rotation = 1.5708
+scale = Vector2(1, 1.28001)
+shape = SubResource("CapsuleShape2D_4qdl4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-2, -2)
+scale = Vector2(2, 2)
+texture = ExtResource("2_oga6t")
+hframes = 4
+frame = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_25bmv")
+}
+
+[node name="PlayerCamera" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+position_smoothing_enabled = true
+position_smoothing_speed = 3.0
+
+[node name="weapon" parent="." instance=ExtResource("3_ypho4")]
+
+[node name="weaponFrames" parent="weapon" index="0"]
+position = Vector2(-2, 7)
+
+[node name="playerBody" type="Node" parent="."]
+script = ExtResource("4_qpdt5")
+
+[editable path="weapon"]

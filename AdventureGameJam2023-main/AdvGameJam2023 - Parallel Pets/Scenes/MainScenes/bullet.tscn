@@ -1,0 +1,122 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnvnl8yq65bf0"]
+
+[ext_resource type="Texture2D" uid="uid://3pm8w8vha4ns" path="res://Assets/weapons/gunProjectile.png" id="1_7atkw"]
+[ext_resource type="Script" path="res://Scenes/MainScenes/bullet.gd" id="1_pp8ts"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tbq4c"]
+radius = 7.0
+height = 26.0
+
+[sub_resource type="Animation" id="Animation_f26ug"]
+resource_name = "blueBulletHit"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"shotHitEnd"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_iuhnd"]
+resource_name = "bulletTravel"
+length = 0.8
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_nmxvy"]
+resource_name = "shotBullet"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"shotEnded"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_egqre"]
+_data = {
+"blueBulletHit": SubResource("Animation_f26ug"),
+"bulletTravel": SubResource("Animation_iuhnd"),
+"shotBullet": SubResource("Animation_nmxvy")
+}
+
+[node name="bullet" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 73
+gravity_scale = 0.0
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("1_pp8ts")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_tbq4c")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4.76837e-07, 4.76837e-07)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_7atkw")
+hframes = 5
+vframes = 2
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_egqre")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
