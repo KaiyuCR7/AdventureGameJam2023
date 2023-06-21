@@ -1,13 +1,19 @@
 extends RigidBody2D
 
+
 @export var bulletSpeed = 300
 @export var life_time = 2
 @onready var animationPlayer = $AnimationPlayer 
 
 var destroyTime = false
+var rotateTime = false
+var speedVector = Vector2()
+var currentVector = Vector2()
 
 func _ready():
-	self.apply_impulse(Vector2(bulletSpeed, 0).rotated(rotation), Vector2())
+	speedVector = Vector2(bulletSpeed, 0)
+	currentVector = speedVector.rotated(rotation)
+	self.apply_impulse(currentVector, Vector2())
 	animationPlayer.play("shotBullet")
 	nuke()
 
@@ -16,11 +22,30 @@ func nuke():
 	destroyTime = true
 	animationPlayer.stop()
 	animationPlayer.play("blueBulletHit")
+	
+func bounceTime():
+	await get_tree().create_timer(0.5).timeout
+	rotateTime = true
 
 func _on_body_entered(body):
-	animationPlayer.stop()
-	animationPlayer.play("blueBulletHit")
+	var bulletCanBounce = Global.canBounce
+	if bulletCanBounce:
+		var bounceCount = Global.bounceAmount
+		var bounceAngleVector = currentVector.bounce(Vector2(1,0))
+		var bounceVector = speedVector.rotated(bounceAngleVector.angle())
+		self.apply_impulse(bounceVector, Vector2())
+		currentVector = bounceVector
+		bounceTime()
+	else:
+		animationPlayer.stop()
+		animationPlayer.play("blueBulletHit")
 	
+
+func _process(delta):
+	if rotateTime:
+		self.rotation = currentVector.angle()
+		rotateTime = false
+
 func shotHitEnd():
 	if destroyTime:
 		queue_free()
@@ -29,3 +54,5 @@ func shotHitEnd():
 
 func shotEnded():
 	animationPlayer.play("bulletTravel")
+
+

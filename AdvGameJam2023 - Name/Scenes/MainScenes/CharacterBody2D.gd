@@ -1,10 +1,11 @@
 extends CharacterBody2D
 
-
+#For Player Movement
 const MAX_SPEED = 200
 const ACCELERATION = 100 
 const FRICTION = 80
 
+#For Weapon aim and shoot
 var lookDirection = 1
 var can_fire = true
 var rate_of_fire = 0.5
@@ -18,6 +19,7 @@ var bulletLife = 2
 @onready var weaponSprite = $weapon/weaponFrames
 
 var bullet = preload("res://Scenes/MainScenes/bullet.tscn")
+var bullet2 = preload("res://Scenes/MainScenes/bulletTest.tscn")
 
 
 func _process(delta):
@@ -55,7 +57,7 @@ func shoot():
 			bulletSpreadList.append(bulletSpread * counter * prevSwap)
 			prevSwap = prevSwap * -1
 		for i in range(projectiles):
-			var bullet_instance = bullet.instantiate()
+			var bullet_instance = bullet2.instantiate()
 			bullet_instance.set_position(weaponPoint.global_position)
 			bullet_instance.rotation = get_angle_to(get_global_mouse_position()) - bulletSpreadList[i]
 			bullet_instance.bulletSpeed = fireSpeed
