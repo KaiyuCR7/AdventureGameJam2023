@@ -1,7 +1,78 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6pm766vu4hd7"]
+[gd_scene load_steps=14 format=3 uid="uid://c6pm766vu4hd7"]
 
-[ext_resource type="Texture2D" uid="uid://cymtqw1e7uwfg" path="res://Assets/weapons/US.png" id="1_irdwb"]
 [ext_resource type="Script" path="res://Scenes/MainScenes/weapon.gd" id="1_tu04h"]
+[ext_resource type="Texture2D" uid="uid://casf1trm8i8aa" path="res://Assets/weapons/1.png" id="2_d5kgj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kecn6"]
+atlas = ExtResource("2_d5kgj")
+region = Rect2(0, 114, 14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_as4a0"]
+atlas = ExtResource("2_d5kgj")
+region = Rect2(92, 98, 28, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rh2v5"]
+atlas = ExtResource("2_d5kgj")
+region = Rect2(32, 80, 31, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w8reh"]
+atlas = ExtResource("2_d5kgj")
+region = Rect2(0, 64, 41, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t17b5"]
+atlas = ExtResource("2_d5kgj")
+region = Rect2(28, 48, 34, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aetdn"]
+atlas = ExtResource("2_d5kgj")
+region = Rect2(173, 64, 34, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1h6hf"]
+atlas = ExtResource("2_d5kgj")
+region = Rect2(173, 80, 34, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7rso"]
+atlas = ExtResource("2_d5kgj")
+region = Rect2(157, 48, 51, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wemae"]
+atlas = ExtResource("2_d5kgj")
+region = Rect2(191, 112, 17, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_unmap"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kecn6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_as4a0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rh2v5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w8reh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t17b5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aetdn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1h6hf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7rso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wemae")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_wv6ap"]
 a = Vector2(0.618018, -1.19209e-07)
@@ -10,15 +81,18 @@ b = Vector2(1.85405, 0)
 [node name="weapon" type="Node2D"]
 script = ExtResource("1_tu04h")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_irdwb")
-hframes = 3
-vframes = 6
+[node name="weaponFrames" type="AnimatedSprite2D" parent="."]
+position = Vector2(-4, 2)
+sprite_frames = SubResource("SpriteFrames_unmap")
+offset = Vector2(4, -2)
 
-[node name="Area2D" type="Area2D" parent="Sprite2D"]
-position = Vector2(34, 0)
+[node name="Area2D" type="Area2D" parent="weaponFrames"]
+position = Vector2(37, -1)
+collision_layer = 0
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
-position = Vector2(4, -2)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="weaponFrames/Area2D"]
+position = Vector2(-9.53674e-07, 1.19209e-07)
 scale = Vector2(1.61808, 1.36956)
 shape = SubResource("SegmentShape2D_wv6ap")
+disabled = true

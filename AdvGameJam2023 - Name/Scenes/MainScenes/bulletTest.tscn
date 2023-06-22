@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://cnvnl8yq65bf0"]
+[gd_scene load_steps=9 format=3 uid="uid://blmlvt5dhtie"]
 
-[ext_resource type="Texture2D" uid="uid://3pm8w8vha4ns" path="res://Assets/weapons/gunProjectile.png" id="1_7atkw"]
-[ext_resource type="Script" path="res://Scenes/MainScenes/bullet.gd" id="1_pp8ts"]
+[ext_resource type="Script" path="res://Scenes/MainScenes/bulletTest.gd" id="1_dbcxl"]
+[ext_resource type="Texture2D" uid="uid://3pm8w8vha4ns" path="res://Assets/weapons/gunProjectile.png" id="2_w0sdy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tbq4c"]
 radius = 7.0
@@ -109,13 +109,11 @@ _data = {
 "shotBullet": SubResource("Animation_nmxvy")
 }
 
-[node name="bullet" type="RigidBody2D"]
+[node name="bullet" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 73
-gravity_scale = 0.0
-max_contacts_reported = 1
-contact_monitor = true
-script = ExtResource("1_pp8ts")
+floor_constant_speed = true
+script = ExtResource("1_dbcxl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 1)
@@ -125,7 +123,7 @@ shape = SubResource("CapsuleShape2D_tbq4c")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(4.76837e-07, 4.76837e-07)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_7atkw")
+texture = ExtResource("2_w0sdy")
 hframes = 5
 vframes = 2
 
@@ -133,5 +131,3 @@ vframes = 2
 libraries = {
 "": SubResource("AnimationLibrary_egqre")
 }
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
